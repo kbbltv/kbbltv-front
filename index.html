@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>kbbltv.com</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./assets/css/roboto-condesed.css" rel="stylesheet"> 
+  <link href="./assets/css/styles.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+  <div id="audio"></div>
+  <div id="tv">
+      <div class="left-bar bar d-none d-xs-none d-sm-none d-md-block col-md-2">
+        kbbltv.com
+      </div>
+      <div class="col-xs-8 col-sm-9 col-md-8 text-center" id="videoParent">
+        <div id="video"></div>
+      </div>
+      <div class="hidden"></div>
+      <div id="rgb"></div>
+      <div class="right-bar bar col-xs-4 col-sm-3 col-md-2">
+        <ul>
+          <li>
+            <div v-if="played">
+              <a v-on:click="pause()">pause</a>
+            </div>
+            <div v-else>
+              <a v-on:click="play()">play</a>
+            </div>
+          </li>
+          <li>volume</li>
+          <li class="volume">
+            <a v-on:click="setVolume(10)" id="volume-10">+</a>
+            <a v-on:click="setVolume(30)" id="volume-30">+</a>
+            <a v-on:click="setVolume(50)" id="volume-50">+</a>
+            <a v-on:click="setVolume(70)" id="volume-70">+</a>
+            <a v-on:click="setVolume(90)" id="volume-90">+</a>
+            <a v-on:click="setVolume(100)" id="volume-100">+</a>
+          </li>
+          <li>
+            <div v-if="muted">
+              <a v-on:click="unMute()">unmute</a>
+            </div>
+            <div v-else>
+              <a v-on:click="mute()">mute</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+  </div>
+  <script src="./assets/js/iframe_api.js"></script>
+  <script src="./assets/js/vue.js"></script>
+  <script src="./assets/js/vue-resource.js"></script>
+  <script src="./assets/js/scripts.js"></script>
+</body>
+</html>
