@@ -94,6 +94,8 @@ playButton = function() {
 
 pauseButton = function() {
     if (video && videoPlayer) {
+        // added due the faster trigger 
+        document.getElementById("video").style.display = "none"; 
         videoPlayer.pauseVideo();
     }
 
@@ -139,24 +141,47 @@ unMute = function() {
 }
 
 onPlayerReady = function(event) {
+    document.getElementById("video").style.display = "none";  
     event.target.playVideo();
 }
 
 onPlayerStateChange = function(event) {
     console.log('event change', event);
+    if(event.data == 0) {
+        // TODO: handle end video
+    }
+
     if (event.data == 1) {
-        setTimeout(function() {
+        enableLink(document.getElementById("play-button"));
             document.getElementById("rgb").style.display = "none";
+            document.getElementById("video").style.display = "block";     
             kbbltv.played = true;
-        }, 2000);
     }
 
     if (event.data == 2) {
+        enableLink(document.getElementById("play-button"));
         document.getElementById("rgb").style.display = "block";
+        document.getElementById("video").style.display = "none";   
+    }
+
+    if(event.data == 3){
+        disableLink(document.getElementById("play-button"));
+        document.getElementById("rgb").style.display = "block";
+        document.getElementById("video").style.display = "none"; 
     }
 }
 
+function disableLink(link) {
+    if(link){
+        link.classList.add('isDisabled');
+    }
+}
 
+function enableLink(link) {
+    if(link){
+        link.classList.remove('isDisabled');
+    }
+}
 
 var waitIframeApi = setInterval(function() {
     if (YT) {

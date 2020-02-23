@@ -54,7 +54,7 @@ body {
     font-size: 22px;
 }
 
-/* #rgb {
+#rgb {
     z-index: 2;
     position: fixed;
     top: 0;
@@ -65,16 +65,29 @@ body {
     background-image: url(../images/loading.png);
 }
 
-#audio {
+ #audio {
     display: none;
 }
 
 .hidden {
-    z-index: 2;
+    z-index: 2; 
     position: fixed;
     top: 0;
     width: 760px;
     margin-left: 85px;
     margin-top: 70px;
     height: 570px;
-} */
+} 
+
+iframe {
+    pointer-events: none;
+}
+
+.isDisabled {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    pointer-events: none;
+    cursor: default;
+  }
