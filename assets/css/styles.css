@@ -18,6 +18,7 @@ body {
     top: 0;
     width: 880px;
     height: 660px;
+    display: none;
 }
 
 .left-bar {
@@ -28,12 +29,11 @@ body {
 }
 
 .right-bar a:hover {
-    color: #9728af;
     cursor: pointer;
 }
 
 .right-bar a.active {
-    color: #9728af;
+    color: #9728af !important;
 }
 
 .bar {

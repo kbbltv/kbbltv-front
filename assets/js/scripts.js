@@ -141,7 +141,6 @@ unMute = function() {
 }
 
 onPlayerReady = function(event) {
-    document.getElementById("video").style.display = "none";  
     event.target.playVideo();
 }
 
@@ -152,23 +151,40 @@ onPlayerStateChange = function(event) {
     }
 
     if (event.data == 1) {
-        enableLink(document.getElementById("play-button"));
-            document.getElementById("rgb").style.display = "none";
-            document.getElementById("video").style.display = "block";     
-            kbbltv.played = true;
+        buttonState(1);
+        showFrame();   
+        kbbltv.played = true;
     }
 
     if (event.data == 2) {
-        enableLink(document.getElementById("play-button"));
-        document.getElementById("rgb").style.display = "block";
-        document.getElementById("video").style.display = "none";   
+        buttonState(1);
+        hideFrame();  
     }
 
+    // Loading
     if(event.data == 3){
-        disableLink(document.getElementById("play-button"));
-        document.getElementById("rgb").style.display = "block";
-        document.getElementById("video").style.display = "none"; 
+        buttonState(2);
+        hideFrame(); 
     }
+}
+
+function buttonState(state){
+    if(state == 1){
+        enableLink(document.getElementById("play-button"));
+    }
+    if(state == 2){
+        disableLink(document.getElementById("play-button"));
+    }
+}
+
+function showFrame(){
+    document.getElementById("rgb").style.display = "none";
+    document.getElementById("video").style.display = "block"; 
+}
+
+function hideFrame(){
+    document.getElementById("rgb").style.display = "block";
+    document.getElementById("video").style.display = "none";  
 }
 
 function disableLink(link) {
@@ -201,10 +217,20 @@ var volumesId = [
     'volume-100'
 ];
 
-for(var i = 0; i < volumesId.length;i++) {
+var volumesIndex = {
+    'volume-10':0,
+    'volume-30':1,
+    'volume-50':2,
+    'volume-70':3,
+    'volume-90':4,
+    'volume-100':5
+};
+
+for(var i = 0; i < volumesId.length ;i++) {
     var volumeBtn = document.getElementById(volumesId[i]);
-    volumeBtn.addEventListener('mouseover', function() {
+    volumeBtn.addEventListener('mouseover', function(event) {
         console.log("mouseover")
+        i = volumesIndex[event.target.id];
         for(var z = 0; z < volumesId.length;z++) {
             if(i >= z) {
                 var volumeBtnToActive = document.getElementById(volumesId[z]);
@@ -226,10 +252,10 @@ for(var i = 0; i < volumesId.length;i++) {
 colorizeActiveVolume = function() {
     if(!kbbltv.muted) {
         var volumeString = 'volume-'+kbbltv.volume;
-        for(var i = 0; i < volumesId.length;i++) {
+        for(var i = 0; i < volumesId.length; i++) {
             if(volumeString === volumesId[i]) {
                 console.log('tira o active');
-                for(var z = 0; z < volumesId.length;z++) {
+                for(var z = 0; z < volumesId.length ;z++) {
                     if(i >= z) {
                         var volumeBtnToActive = document.getElementById(volumesId[z]);
                         volumeBtnToActive.classList.add("active");
