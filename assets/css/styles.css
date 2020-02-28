@@ -59,8 +59,8 @@ body {
     position: fixed;
     top: 0;
     width: 760px;
-    margin-left: 85px;
-    margin-top: 70px;
+    margin-left: 8%;
+    margin-top: 5.2%;
     height: 570px;
     background-image: url(../images/loading.png);
 }
