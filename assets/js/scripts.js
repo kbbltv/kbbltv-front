@@ -1,4 +1,4 @@
-var api = 'http://localhost/api'
+var api = "http://localhost/api"
 var video;
 var audio;
 var videoPlayer;
@@ -192,13 +192,13 @@ function buttonState(state){
 
 function showFrame() {
     setTimeout(function() {
-        document.getElementById("rgb").style.display = "none";
+        // document.getElementById("rgb").style.display = "none";
         document.getElementById("video").style.display = "block"; 
     }, 3000);
 }
 
 function hideFrame() {
-    document.getElementById("rgb").style.display = "block";
+    // document.getElementById("rgb").style.display = "block";
     document.getElementById("video").style.display = "none";  
 }
 
