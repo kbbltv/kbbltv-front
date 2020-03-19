@@ -1,4 +1,4 @@
-var api = 'http://localhost:8080/api'
+var api = 'http://localhost/api'
 var video;
 var audio;
 var videoPlayer;
@@ -29,7 +29,7 @@ var kbbltv = new Vue({
             unMute();
         }
     }
-  })
+})
 
 // Get medias playing now
 getCurrentMedias = function() {
@@ -54,41 +54,49 @@ getCurrentMedias = function() {
 
 // Play Video
 playVideo = function() {
-    videoPlayer = new YT.Player('video', {
-        width: '1000',
-        height: '750',
-        videoId: video.id,
-        playerVars: { 'start': video.playAt, 'mute': 1, 'autoplay': 1, 'controls': 0, 'playsinline': 1 },
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
+    if(videoPlayer != null) {
+        videoPlayer.loadVideoById(video.id, video.playAt);
+    } else {
+        videoPlayer = new YT.Player('video', {
+            width: '1000',
+            height: '750',
+            videoId: video.id,
+            playerVars: { 'start': video.playAt, 'mute': 1, 'autoplay': 1, 'controls': 0, 'playsinline': 1 },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
 }
 
 // Play Audio
 playAudio = function() {
-    audioPlayer = new YT.Player('audio', {
-        width: '1',
-        height: '1',
-        videoId: audio.id,
-        playerVars: { 'start': audio.playAt, 'mute': 1, 'autoplay': 1, 'controls': 0, 'playsinline': 1 },
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
+    if(audioPlayer) {
+        audioPlayer.loadVideoById(audio.id, audio.playAt);
+    } else {
+        audioPlayer = new YT.Player('audio', {
+            width: '1',
+            height: '1',
+            videoId: audio.id,
+            playerVars: { 'start': audio.playAt, 'mute': 1, 'autoplay': 1, 'controls': 0, 'playsinline': 1 },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
 }
 
 playButton = function() {
     if (video) {
         videoPlayer.playVideo();
     }
-
+    
     if (audio) {
         audioPlayer.playVideo();
     }
-
+    
     kbbltv.played = true;
 }
 
@@ -98,11 +106,11 @@ pauseButton = function() {
         document.getElementById("video").style.display = "none"; 
         videoPlayer.pauseVideo();
     }
-
+    
     if (audio) {
         audioPlayer.pauseVideo();
     }
-
+    
     kbbltv.played = false;
 }
 
@@ -146,21 +154,25 @@ onPlayerReady = function(event) {
 
 onPlayerStateChange = function(event) {
     console.log('event change', event);
+    
     if(event.data == 0) {
         // TODO: handle end video
+        getCurrentMedias();
+        hideFrame();   
+        kbbltv.played = false;
     }
-
+    
     if (event.data == 1) {
         buttonState(1);
         showFrame();   
         kbbltv.played = true;
     }
-
+    
     if (event.data == 2) {
         buttonState(1);
         hideFrame();  
     }
-
+    
     // Loading
     if(event.data == 3){
         buttonState(2);
@@ -177,12 +189,14 @@ function buttonState(state){
     }
 }
 
-function showFrame(){
-    document.getElementById("rgb").style.display = "none";
-    document.getElementById("video").style.display = "block"; 
+function showFrame() {
+    setTimeout(function() {
+        document.getElementById("rgb").style.display = "none";
+        document.getElementById("video").style.display = "block"; 
+    }, 3000);
 }
 
-function hideFrame(){
+function hideFrame() {
     document.getElementById("rgb").style.display = "block";
     document.getElementById("video").style.display = "none";  
 }
@@ -229,7 +243,6 @@ var volumesIndex = {
 for(var i = 0; i < volumesId.length ;i++) {
     var volumeBtn = document.getElementById(volumesId[i]);
     volumeBtn.addEventListener('mouseover', function(event) {
-        console.log("mouseover")
         i = volumesIndex[event.target.id];
         for(var z = 0; z < volumesId.length;z++) {
             if(i >= z) {
@@ -237,14 +250,13 @@ for(var i = 0; i < volumesId.length ;i++) {
                 volumeBtnToActive.classList.add("active");
             }
         }
-
+        
         for(var z = volumesId.length - 1; z > i; z--) {
             var volumeBtnToActive = document.getElementById(volumesId[z]);
             volumeBtnToActive.classList.remove("active");
         }
     });
     volumeBtn.addEventListener('mouseout', function() {
-        console.log('mouseout');
         colorizeActiveVolume();
     });
 }
@@ -254,7 +266,6 @@ colorizeActiveVolume = function() {
         var volumeString = 'volume-'+kbbltv.volume;
         for(var i = 0; i < volumesId.length; i++) {
             if(volumeString === volumesId[i]) {
-                console.log('tira o active');
                 for(var z = 0; z < volumesId.length ;z++) {
                     if(i >= z) {
                         var volumeBtnToActive = document.getElementById(volumesId[z]);
@@ -284,7 +295,6 @@ calcTVSize = function() {
     var tvElement = document.getElementById("video");
     var videoParent = document.getElementById("videoParent");
     var tvWidth;
-    console.log(videoParent.clientWidth, window.innerHeight);
     if (videoParent.clientWidth > window.innerHeight * 1.25) {
         tvElement.style.height = "99vh";
         tvElement.style.width = window.innerHeight * 1.25 + "px";
@@ -294,7 +304,6 @@ calcTVSize = function() {
         tvElement.style.height = videoParent.clientWidth * 0.75 + "px";
         tvWidth = videoParent.clientWidth;
     }
-    console.log(parseFloat(tvWidth));
 }
 
 calcTVSize();
