@@ -19,6 +19,7 @@ body {
     width: 880px;
     height: 660px;
     display: none;
+    margin-top: -50px;
 }
 
 .left-bar {
@@ -50,6 +51,13 @@ body {
     list-style: none;
 }
 
+.brand {
+    position: relative;
+    margin-top: 15px;
+    z-index: 999;
+}
+
+.brand,
 .bar .volume {
     font-size: 22px;
 }
@@ -65,7 +73,7 @@ body {
     background-image: url(../images/loading.png);
 }
 
- #audio {
+#audio {
     display: none;
 }
 
@@ -90,4 +98,4 @@ iframe {
     text-decoration: none;
     pointer-events: none;
     cursor: default;
-  }
+}

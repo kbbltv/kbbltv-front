@@ -170,7 +170,8 @@ onPlayerStateChange = function(event) {
     
     if (event.data == 2) {
         buttonState(1);
-        hideFrame();  
+        hideFrame();
+        kbbltv.played = false;
     }
     
     // Loading
