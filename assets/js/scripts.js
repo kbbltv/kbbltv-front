@@ -296,13 +296,13 @@ calcTVSize = function() {
     var tvElement = document.getElementById("video");
     var videoParent = document.getElementById("videoParent");
     var tvWidth;
-    if (videoParent.clientWidth > window.innerHeight * 1.25) {
+    if (videoParent.clientWidth > window.innerHeight * 1.44) {
         tvElement.style.height = "99vh";
-        tvElement.style.width = window.innerHeight * 1.25 + "px";
-        tvWidth = window.innerHeight * 1.25 + "px";
+        tvElement.style.width = window.innerHeight * 1.44 + "px";
+        tvWidth = window.innerHeight * 1.44 + "px";
     } else {
         tvElement.style.width = "100%";
-        tvElement.style.height = videoParent.clientWidth * 0.75 + "px";
+        tvElement.style.height = videoParent.clientWidth * 0.56 + "px";
         tvWidth = videoParent.clientWidth;
     }
 }
